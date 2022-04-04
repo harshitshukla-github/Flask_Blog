@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- CSS only -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+
+		<style>
+			body{
+				margin:0;
+				font-family: 'Hachi Maru Pop', cursive;
+				color: white;
+				background: #202731;
+
+			}
+			section{
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				align-items: centre;
+				min-height: 400px;
+				padding: 100px 20vw;
+			}
+
+			.blue{
+				background: #3c31dd;
+			}
+
+			.dark{
+				background: #0f0f10;
+			}
+
+			.pink{
+				background: #ff0066;
+				overflow: hidden;
+			}
+
+			.curve{
+				position: absolute;
+				height: 225px;
+				width: 100%;
+				bottom: 0;
+			}
+
+			.curve::before{
+				content:'';
+				display:block;
+				position:absolute;
+				border-radius: 100% 50%;
+				width: 55%;
+				height: 100%;
+				background-color:#202731;
+				transform: translate(85%, 60%);
+			}
+
+			.curve::after{
+				content:'';
+				display: block;
+				position: absolute;
+				border-radius: 100% 50%;
+				width: 55%;
+				height: 100%;
+				background-color:#3c31dd;
+				transform: translate(-4%, 40%);
+				z-index: -1;
+			}
+
+			.bubble::after{
+				content:'';
+				border-top-left-radius: 50% 100%;
+				border-top-right-radius: 50% 100%;
+				position: absolute;
+				bottom: -35%;
+				height: 85%;
+				width: 100%;
+				background-color: #0f0f10;
+				z-index: -1;
+			}
+
+			.wave {
+				position: absolute;
+    				top: 0;
+    				left: 0;
+    				width: 100%;
+    				overflow: hidden;
+    				line-height: 0;
+			}
+
+			.wave svg {
+    				position: relative;
+    				display: block;
+    				width: calc(168% + 1.3px);
+    				height: 351px;
+			}
+
+			.wave .shape-fill {
+    				fill: #ffffff;
+			}
+		</style>
+
+		<link 
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
+			rel="stylesheet" 
+			integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" 
+			crossorigin="anonymous"
+		/>
+		
+		<script src="https://kit.fontawesome.com/e9472486a9.js" crossorigin="anonymous"></script>
+
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		<nav class = "navbar navbar-expand-lg navbar-dark bg-dark"> 
+			<div class="container-fluid">
+				<button 
+					class="navbar-toggler" 
+					type="button" 
+					data-bs-toggle="collapse" 
+					data-bs-target="#navbar"
+				>
+				<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbar">
+					<div class= "navbar-nav">	
+					<a class= "nav-item nav-link" href="/home">Home</a>
+					{% if user.is_authenticated %}
+					<a class= "nav-item nav-link" href="/logout">Logout</a>
+					{% else %}
+					<a class= "nav-item nav-link" href="/login">Login</a>
+					<a class= "nav-item nav-link" href="/sign-up">Sign Up</a>
+					{% endif %}
+					</div>
+				</div>
+			</div>
+		</nav>
+		{% with messages = get_flashed_messages(with_categories= True) %}
+			{% if messages %}
+				{% for category, message in messages %}
+				{% if category == "error" %}
+				<div class="alert alert-danger alter-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>
+				{% else %}
+				<div class="alert alert-success alter-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>
+				{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<div class="container">{% block content %}{% endblock %}</div>
+		<section class="pink">
+			<div class="wave">
+    				<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+					<path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    				</svg>
+			</div>
+		</section>
+		<!-- JavaScript Bundle with Popper -->
+		<script 
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" 
+			integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" 
+			crossorigin="anonymous"
+		></script>
+		<script type="text/JavaScript" src="{{ url_for('static', filename='index.js') }}"></script>
+	</body>
+</html>
